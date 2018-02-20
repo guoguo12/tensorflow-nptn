@@ -4,7 +4,7 @@ import keras
 from keras.datasets import cifar10
 from keras.optimizers import Adam
 
-import models
+from models.baseline import baseline_convnet
 
 BATCH_SIZE = 32
 NUM_CLASSES = 10
@@ -25,7 +25,7 @@ x_test /= 255
 y_train = keras.utils.to_categorical(y_train, NUM_CLASSES)
 y_test = keras.utils.to_categorical(y_test, NUM_CLASSES)
 
-model = models.baseline_convnet(x_train.shape[1:], NUM_CLASSES)
+model = baseline_convnet(x_train.shape[1:], NUM_CLASSES)
 model.compile(loss='categorical_crossentropy',
               optimizer=Adam(),
               metrics=['accuracy'])
