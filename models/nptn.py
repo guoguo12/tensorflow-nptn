@@ -1,23 +1,14 @@
-from keras.layers import (BatchNormalization, Dense, Flatten, Lambda,
-                          MaxPooling2D)
-from keras.layers.advanced_activations import PReLU
-from keras.models import Sequential
 import tensorflow as tf
 
 
 def nptn_layer(input, kernel_size, in_channels, out_channels, num_transforms):
-    """NPTN layer
-    use separate scopes to use multiple NPTN layers
+    """NPTN layer with bias.
 
-    Biased.
+    In the notation used in the NPTN article: in_channels is M, out_channels is
+    N, and num_transforms is |G|.
 
-    input
-    kernel_size is k
-    in_channels is M
-    out_channels is N
-    num_transforms is |G|
-
-    TODO
+    To use multiple NPTN layers, use separate variable scopes. See
+    two_layer_nptn below for an example.
     """
     assert len(input.shape) == 4
 
@@ -45,7 +36,7 @@ def nptn_layer(input, kernel_size, in_channels, out_channels, num_transforms):
     return output + bias
 
 
-def two_layer_nptn(x, num_classes, out_channels, num_transforms):
+def two_layer_nptn(x, num_classes=10, out_channels=48, num_transforms=1):
     """Two-layer NPTN as described in the paper.
 
     out_channels and num_transforms refer to the first layer only.
