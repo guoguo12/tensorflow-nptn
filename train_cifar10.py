@@ -8,14 +8,12 @@ import tensorflow as tf
 
 from models.nptn import two_layer_nptn
 
-tf.app.flags.DEFINE_integer('batch_size', 50,
+tf.app.flags.DEFINE_integer('batch_size', 150,
                             'batch size to use during training')
 tf.app.flags.DEFINE_integer('train_steps', 49000,
                             'total minibatches to train')
 tf.app.flags.DEFINE_integer('steps_per_display', 49,
                             'minibatches to train before printing loss')
-tf.app.flags.DEFINE_boolean('use_seed', True,
-                            'fix random seed to guarantee reproducibility')
 
 FLAGS = tf.app.flags.FLAGS
 
