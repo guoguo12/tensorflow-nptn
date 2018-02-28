@@ -86,9 +86,11 @@ def main():
                     step, epoch, avg_loss, val_acc, avg_time), flush=True)
                 avg_time = avg_loss = 0
 
-        outputs = np.argmax(sess.run(logits, {x: x_test}), axis=-1)
+        test_logits, test_loss = sess.run([logits, loss], {x: x_test, y: y_test})
+        outputs = np.argmax(test_logits, axis=-1)
         test_acc = sklearn.metrics.accuracy_score(y_test, outputs)
         print('Test accuracy: {:.4f}'.format(test_acc))
+        print('Test loss: {:.4f}'.format(test_loss))
 
         coord.request_stop()
         coord.join(threads)
