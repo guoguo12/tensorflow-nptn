@@ -14,6 +14,8 @@ tf.app.flags.DEFINE_integer('train_steps', 49000,
                             'total minibatches to train')
 tf.app.flags.DEFINE_integer('steps_per_display', 49,
                             'minibatches to train before printing loss')
+tf.app.flags.DEFINE_string('train_dir', 'nptn_model',
+                           'where to store the trained model')
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -58,6 +60,8 @@ def main():
                                                            logits=logits))
     opt = tf.train.AdamOptimizer().minimize(loss)
 
+    saver = tf.train.Saver(tf.global_variables())
+
     with tf.Session() as sess:
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(coord=coord)
@@ -91,6 +95,10 @@ def main():
         test_acc = sklearn.metrics.accuracy_score(y_test, outputs)
         print('Test accuracy: {:.4f}'.format(test_acc))
         print('Test loss: {:.4f}'.format(test_loss))
+
+        if not os.path.exists(FLAGS.train_dir):
+            os.makedirs(FLAGS.train_dir)
+        saver.save(sess, FLAGS.train_dir + '/ckpt', global_step=step)
 
         coord.request_stop()
         coord.join(threads)
