@@ -3,6 +3,7 @@ from keras.layers import (BatchNormalization, Conv2D, Dense, Flatten,
 from keras.layers.advanced_activations import PReLU
 from keras.models import Sequential
 
+
 def baseline_convnet(input_shape, num_classes):
     """Baseline two-layer ConvNet as described in the NPTN paper."""
     model = Sequential()
